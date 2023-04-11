@@ -16,7 +16,6 @@ class Hangman:
         get_new_token = True
 
         while True:
-            
             # Checks if it's a new game
             if get_new_token:
                 get_new_token = False
@@ -63,7 +62,7 @@ class Hangman:
         else:
             print(hangman_pics[self.total_attempts])
 
-
+            
     def guess(self):
         '''Checks if users guess is valid, correcot, or incorrect'''
         if len(self.u_guess) > 1 or self.u_guess == ' ':
@@ -80,19 +79,15 @@ class Hangman:
                 Hangman.update(self)
                 
             elif self.u_guess.lower() in self.wrong_guesses:
-                print(f"You've already guessed {self.u_guess}")
+                print(f"You've already guessed '{self.u_guess},' which was revealed to be wrong")
 
             else:
                 self.wrong_guesses.append(self.u_guess.lower())
                 print("Wrong")
                 Hangman.hang(self)
-        
-        elif self.u_guess in self.correct_guesses:
-            print(f"'{self.u_guess}' was already revealed as a correct guess, try a different letter.")
-        
         else:
-            print("Uknown error, exiting...")
-            exit()
+            print(f"'{self.u_guess}' was already revealed as a correct guess, try a different letter.")
+    
     
     def update(self):
         '''Updates word displayed to accurately present up-to-date information'''
