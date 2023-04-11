@@ -6,22 +6,18 @@ import random
 
 class Hangman:
     def __init__(self):
+        self.prompt()
+        
+    def prompt(self):
         '''Sets game to default start; prompts user for guess'''
         self.word = words[random.randint(0, len(words) - 1)]
         self.total_attempts = 0
         self.correct_guesses = []
         self.wrong_guesses = []
-        self.new_game_req = False
-        
-        get_new_token = True
+
+        print("\n\nWelcome to a new start!\n")
 
         while True:
-            # Checks if it's a new game
-            if get_new_token:
-                get_new_token = False
-                print("\n\nWelcome to a new start!\n")
-            
-            
             # Prints unknown/known letters and hangman drawing
             print(
             f"{hangman_pics[self.total_attempts]}\n"
@@ -31,20 +27,17 @@ class Hangman:
             self.u_guess = input("Guess a letter: ")
 
             # Checks if user's guess is correct
-            Hangman.guess(self)
-            
-            # Checks if user requested a new game
-            if self.new_game_req:
-                break
-        
-        # Prompts user for new game
-        u_input = input("New game (y/n)? ")
-                
+            self.guess()
+    
+
+    def replay(self):
+        '''Prompts user to replay'''
+        u_input = input("Replay (y/n)? ")
         if u_input.lower() == 'y':
-            Hangman()
+            self.prompt()
         else:
             exit()
-            
+
 
     def hang(self):
         '''Checks amount of attempts and updates drawing accordingly'''
@@ -56,13 +49,11 @@ class Hangman:
                 f"\nThe word was: {self.word}"
                 "\nGAME OVER!"
             )
-            
-            # Asks user if they want to play again
-            self.new_game_req = True
+            self.replay()
         else:
             print(hangman_pics[self.total_attempts])
 
-            
+
     def guess(self):
         '''Checks if users guess is valid, correcot, or incorrect'''
         if len(self.u_guess) > 1 or self.u_guess == ' ':
@@ -76,18 +67,18 @@ class Hangman:
                 self.correct_guesses.append(self.u_guess.lower())
                 
                 print("Correct")
-                Hangman.update(self)
+                self.update()
                 
             elif self.u_guess.lower() in self.wrong_guesses:
-                print(f"You've already guessed '{self.u_guess},' which was revealed to be wrong")
+                print(f"You've already guessed '{self.u_guess},' which was revealed to be wrong.")
 
             else:
                 self.wrong_guesses.append(self.u_guess.lower())
                 print("Wrong")
-                Hangman.hang(self)
+                self.hang()
         else:
             print(f"'{self.u_guess}' was already revealed as a correct guess, try a different letter.")
-    
+
     
     def update(self):
         '''Updates word displayed to accurately present up-to-date information'''
@@ -111,7 +102,7 @@ class Hangman:
                 f"\nThe word was: {self.word}"
                 "\nYOU WIN!"
             )
-            self.new_game_req = True
+            self.replay()
             
         return self.unknown_word
 
