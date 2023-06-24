@@ -50,8 +50,6 @@ class Hangman:
                 "\nGAME OVER!"
             )
             self.replay()
-        else:
-            print(hangman_pics[self.total_attempts])
 
 
     def guess(self):
@@ -88,13 +86,13 @@ class Hangman:
         for letter in self.word:
             if letter not in self.correct_guesses:
                 if letter == ' ':
-                    pass
+                    continue
 
                 # Replaces all unknown letters with '_'    
                 else:
-                    self.unknown_word = self.unknown_word.replace(letter, "_")
+                    self.unknown_word = self.unknown_word.replace(letter, "_ ")
             else:
-                pass
+                continue
         
         # Checks if user revealed all the letters
         if self.unknown_word == self.word:
